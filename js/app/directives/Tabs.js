@@ -6,7 +6,10 @@ var Tabs = {
 
     this.tabs = [];
 
-		this.addTab = function(tab){ this.tabs.push(tab) };
+		this.addTab = function(tab){
+			if(this.tabs.length===0){ tab.selected=true }
+			this.tabs.push(tab) 
+		};
 
     this.setTab = function(index){
 			this.tabs.forEach(function(tab){
