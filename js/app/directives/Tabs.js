@@ -5,29 +5,32 @@ var Tabs = {
 	controller: function() {
 
     this.tabs = [];
-    this.currentTab = 0;
 
-    this.currentContent = function(){
-      return this.tabs[this.currentTab].content;
-    };
+		this.addTab = function(tab){ this.tabs.push(tab) };
 
     this.setTab = function(index){
-      this.currentTab = index;
+			this.tabs.forEach(function(tab){
+				tab.selected = false;
+			});
+      this.tabs[index].selected = true;
+			//debugger;
     };
 
     this.isActive = function(index) {
-      return index===this.currentTab;
+      return this.tabs[index].selected;
     };
   },
 	controllerAs: 'tabs',
+	transclude: true,
 	template: [
-		'<div>',
-			'<div ng-repeat="tab in tabs.tabs">',
-			   '<tab label="{{tab.label}}" ng-click-"tabs.setTab($index);">',
-            '<label>{{tab.label}}</label>',
-         '</tab>',
-			'</div>',
-      '{{tabs.currentContent()}}',
+		'<div class="tabs">',
+			'<ul class="tabs__list">',
+				'<li ng-repeat="tab in tabs.tabs">',
+			  	'<a label="{{tab.label}}" ng-click="tabs.setTab($index);">',
+					'{{tab.label}}</a>',
+      	'</li>',
+			'</ul>',
+    	'<div ng-transclude></div>',
 		'</div>'
 	].join(''),
 	restrict: 'E'
