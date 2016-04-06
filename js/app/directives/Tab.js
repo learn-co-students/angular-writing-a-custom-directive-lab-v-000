@@ -11,8 +11,8 @@ function tab(){
         scope.active = false
         tabsCtrl.addTab(scope)
       }
-  };
-}
+  }
+};
 
 angular
   .module('app', [])
