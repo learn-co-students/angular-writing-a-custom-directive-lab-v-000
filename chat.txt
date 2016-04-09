@@ -1,0 +1,887 @@
+Avidor said 2 hours ago
+
+Hey Adam, let me see if I can lend a hand.
+Adam said 2 hours ago
+
+Cool
+Avidor said 2 hours ago
+
+What's up?
+Adam said 2 hours ago
+
+Well, I've been cranking through the readings and the labs
+Adam said 2 hours ago
+
+passing them pretty easily and quickly
+Adam said 2 hours ago
+
+Now I'm at the last lab and I am just struggling a little on how to put it all togehter
+Avidor said 2 hours ago
+
+Honestly, when I went through this lab, I looked back at the previous lab that was similar to this one to help me work through it.
+Adam said 2 hours ago
+
+Right so I found that one in my notes I think
+Avidor said 2 hours ago
+
+Perfect.
+Adam said 2 hours ago
+
+it has two directives, a tabs directive and a tab directive
+Avidor said 2 hours ago
+
+Yeah.
+Adam said 2 hours ago
+
+Yeah so I've got the code, it just... I don't know, I guess I just don't understand
+Adam said 2 hours ago
+
+So here's the tabs controller:
+Adam said 2 hours ago
+
+function (tabs) {
+  return {
+    restrict: 'E',
+    scope: {},
+    transclude: true,
+    controller: function() {
+      this.tabs = [];
+      this.addTab = function (tab) {
+        this.tabs.push(tab); };
+    },
+    controllerAs: 'tabs',
+    template: [
+      '<div class="tabs">',
+      '<ul class="tabs__list"></ul>',
+      '<div class="tabs__content" ng-transclude></div>',
+      '</div>'
+    ].join('')
+  };
+}
+
+angular
+  .module('app')
+  .directive('tabs', Tabs);
+
+
+Adam said 2 hours ago
+
+I think I copied it right
+Adam said 2 hours ago
+
+So just running down the return values, and trying to remind myself what all this stuff does
+Adam said 2 hours ago
+
+    restrict means the directive can only be applied as an element <tabs>
+
+Avidor said 2 hours ago
+
+Correct
+Adam said 2 hours ago
+
+    scope is an empty object because the tabs directive only holds an array of tab objects, no variables to return
+
+Adam said 2 hours ago
+
+    transclude true because we want to be able to inject it into html at the position of our choosing
+
+Adam said 2 hours ago
+
+Maybe I need to revisit controllers, cause the controller part stumps me
+Adam said 2 hours ago
+
+The directive has its own controller inside the hash (object, whatever)
+Adam said 2 hours ago
+
+controller has a 'local variable' is that a thing? - called this.tabs
+Adam said 2 hours ago
+
+and a 'local method' to add to the array of tabs
+Avidor said 2 hours ago
+
+Right. And that's why we can do the contollerAs: so we can give it a particular name.
+Adam said 2 hours ago
+
+yes so controllerAs: 'tabs' allows us to do tabs.tabs?
+Avidor said 2 hours ago
+
+Right.
+Adam said 2 hours ago
+
+ok and tabs.addtab
+Avidor said 2 hours ago
+
+A big idea behind angular is this idea of components or directives (pretty much the same thing)
+Adam said 2 hours ago
+
+right, directives are a more verbose form of a component
+Avidor said 2 hours ago
+
+And it's that we want to be able to break down a section of our website into a very modular part that is almost self contained (it holds its html, its functions, etc...)
+Adam said 2 hours ago
+
+I understand, that does make sense. The entire app doesn't need to know how to build the tab bar
+Adam said 2 hours ago
+
+ok in the template, in the assignment we said <ul class="tabs__list"></ul>
+Adam said 2 hours ago
+
+why two underscores?
+Adam said 2 hours ago
+
+also <div class="tabs__content" ng-transclude></div>
+Avidor said 2 hours ago
+
+You know, I'm not sure. But as far as I can tell, that's just CSS (see at the top of the sheet).
+Avidor said 2 hours ago
+
+I don't know why that convention in particular is used.
+Adam said 2 hours ago
+
+yeah I thought so as well, just struck me as odd
+Adam said 2 hours ago
+
+alrighty! moving on over to tab()
+Adam said 2 hours ago
+
+function tab() {
+  return {
+    restrict: 'E',
+    scope: {
+      label: '@'
+    },
+    require: '^tabs',
+    transclude: true,
+    template: [
+      '<div class="tabs_content" ng-if="tab.selected">',
+      '<div ng-transclude></div>',
+      '</div>'
+    ].join(''),
+    link: function ($scope, $element, $attrs, $ctrl) {
+    }
+  };
+}
+angular
+  .module('app', [])
+  .directive('tab', tab)
+  .directive('tabs', tabs);
+
+
+
+
+Adam said 2 hours ago
+
+so this one, we include scope: { label: '@'},
+Adam said 2 hours ago
+
+because.. I know I wrote that down...
+Adam said 2 hours ago
+
+because we want to pass a value into the scope object
+Adam said 2 hours ago
+
+$scope
+Adam said 2 hours ago
+
+so we can see $scope.label
+Avidor said 2 hours ago
+
+And we use @ because we want the literal value.
+Avidor said 2 hours ago
+
+I think it's something like 'Tab 1'
+Avidor said 2 hours ago
+
+And that's not some sort of variable that has to be evaluated.
+Adam said 2 hours ago
+
+ahh right
+Adam said 2 hours ago
+
+we are not pushing variables back and forth
+Adam said 2 hours ago
+
+er assigning variables back and forth
+Adam said 2 hours ago
+
+ok so we only need the value, so we use @
+Adam said 2 hours ago
+
+ok then we require: '^tabs'
+Adam said 2 hours ago
+
+and does that mean we're taking the tabs controller, the thing we assigned with controllerAs?
+Adam said 2 hours ago
+
+or is it the tabs directive?
+Adam said 2 hours ago
+
+It seems like that might be the answer
+Adam said 2 hours ago
+
+And that's why we add the .directive('tabs', tabs); to the end of the angular statement, right?
+Avidor said 2 hours ago
+
+Yup, I believe that's the one we're looking at.
+Adam said 2 hours ago
+
+OK so far, so good. The template has ng-if="tab.selected" which makes sense, because you only want to display the label only if the tab is selected
+Adam said 2 hours ago
+
+how do you set tab.selected?
+Adam said 2 hours ago
+
+there's no selected value in there
+Adam said 2 hours ago
+
+do you set that inside the link function?
+Avidor said 2 hours ago
+
+So yes, we do set that in the link
+Avidor said 2 hours ago
+
+So in there we give the tab some properties (label and scope) and then as we add it to the dom, we also add it to tabs.tabs with addTab
+Adam said 2 hours ago
+
+ok got it
+Adam said 2 hours ago
+
+and we've got those 4 variables passed through.
+Avidor said 2 hours ago
+
+Which 4 variables?
+Adam said 2 hours ago
+
+$scope, $element, $attrs, $ctrl
+Avidor said 2 hours ago
+
+Right
+Adam said 2 hours ago
+
+hm
+Adam said 2 hours ago
+
+where do those come from
+Adam said 2 hours ago
+
+$element (should it be just element)
+Adam said 2 hours ago
+
+is that <tab> in the HTML?
+Adam said 2 hours ago
+
+something like this:
+
+<li ng-repeat="tab in ctrl.tabs"><tab></li>
+
+Adam said 2 hours ago
+
+so we're not doing controllerAs because we're inheriting the ^tabs controller, right?
+Adam said 2 hours ago
+
+and that's what's in $ctrl?
+Avidor said 2 hours ago
+
+Right.
+Avidor said 2 hours ago
+
+That's why we can call the addTab function
+Avidor said 2 hours ago
+
+Because that's the only place that function exists.
+Adam said 2 hours ago
+
+Ok. Makes sense
+Adam said 2 hours ago
+
+How about $scope
+Adam said 2 hours ago
+
+is that the object from earlier?
+
+scope: {
+  label: '@'
+  }
+
+Adam said 2 hours ago
+
+or is it something else?
+Avidor said an hour ago
+
+I believe so. That's why we do:
+Avidor said an hour ago
+
+$scope.tab = {
+        label: $scope.label,
+        selected: false
+      };
+
+Adam said an hour ago
+
+Ok so that goes in link?
+Avidor said an hour ago
+
+So we take label from scope and re-apply it nested in the tab array
+Avidor said an hour ago
+
+Yeah
+Adam said an hour ago
+
+Ok so that assigns a selected value right there, huh? Because we never declared it
+Adam said an hour ago
+
+building an object, right? it looks like a ruby hash but it's actually an object
+Adam said an hour ago
+
+confuses me a little, it's more like a ruby class, but looks like a ruby hash
+Avidor said an hour ago
+
+I think it's really a hash here.
+Adam said an hour ago
+
+haha ok
+Avidor said an hour ago
+
+But in JS they're really similar.
+Adam said an hour ago
+
+ok so what we need to do in this link action is to do some DOM manipulation
+Adam said an hour ago
+
+because the link is more like a stopoff point where code is executed at a point in the object lifecycle
+Adam said an hour ago
+
+right?
+Adam said an hour ago
+
+I mean, it's jsut a function which is fired at a certain point
+Adam said an hour ago
+
+so by doing the code you posted in:
+
+$scope.tab = {
+        label: $scope.label,
+        selected: false
+};
+
+Adam said an hour ago
+
+What you're basically doing is creating a new attribute (?) called tab
+Adam said an hour ago
+
+and assigning it two values, one which is held in the tab directive's scope, the other you make up on the spot
+Adam said an hour ago
+
+is that correct?
+Adam said an hour ago
+
+It makes sense, if that was the case. I'm still not sure how I get the object into the template.
+Adam said an hour ago
+
+I am going to review my notes some more
+Avidor said an hour ago
+
+So you're creating this property on $scope called tab. Tab points to a hash.
+Avidor said an hour ago
+
+And then link happens I think right before you add this elm to the DOM (or right after, i'd have to google it to be sure).
+Adam said an hour ago
+
+OK, so I created a hash with keys label and selected
+Adam said an hour ago
+
+how do I put those into the template?
+Adam said an hour ago
+
+with {{ }}?
+Avidor said an hour ago
+
+Through the transclude
+Avidor said an hour ago
+
+If you look, the content of the tabs is on the index.html page and it's never saved elsewhere.
+Avidor said an hour ago
+
+But when that tab is active, the information is (for lack of a better word) yielded into the templated.
+Avidor said an hour ago
+
+Does that make sense?
+Adam said an hour ago
+
+I don't see the content in index.html
+Adam said an hour ago
+
+I need to put it in there?
+Adam said an hour ago
+
+do I not do something like
+
+<ul>
+<li ng-repeat="tab in ctrl.tabs"><tab></li>
+</ul>
+
+Adam said an hour ago
+
+so many things to keep track of
+Adam said an hour ago
+
+maybe I am not supposed to be iterating
+Avidor said an hour ago
+
+          <tab label='Tab 1'>
+            Tab 1 contents!
+          </tab>
+
+Avidor said an hour ago
+
+That's why you have the transclude in the tab directive
+Adam said an hour ago
+
+that's what the template in tab is doing?
+Adam said an hour ago
+
+    template: [
+      '<div class="tabs_content" ng-if="tab.selected">',
+      '<div ng-transclude></div>',
+      '</div>'
+    ].join(''),
+
+Adam said an hour ago
+
+if tab.selectd, it displays <div ng-transclude></div>
+Adam said an hour ago
+
+?
+Adam said an hour ago
+
+And if it trips <div ng-transclude></div> it'll fire off what you've got in transclude: { ... }
+Adam said an hour ago
+
+gah, so do I need to do
+
+    template: [
+      '<div class="tabs_content" ng-if="tab.selected">',
+      '<div ng-transclude="label"></div>',
+      '</div>'
+    ].join(''),
+
+Adam said an hour ago
+
+I don't think I understand
+Avidor said an hour ago
+
+You just need the '<div ng-transclude></div>` for that line, you don't need to set it equal to anything.
+Adam said an hour ago
+
+ok how do I tell it what goes in there
+Avidor said an hour ago
+
+It's just saying, if this tab is selected then transclude (yield what's inside). Otherwise dont.
+Adam said an hour ago
+
+oh
+Adam said an hour ago
+
+you yield what's already there in the code
+Avidor said an hour ago
+
+          <tab label='Tab 1'>
+            Tab 1 contents!
+          </tab>
+          <tab label='Tab 2'>
+            Tab 2 contents!
+          </tab>
+          <tab label='Tab 3'>
+            Tab 3 contents!
+          </tab>
+
+Adam said an hour ago
+
+in the html
+Avidor said an hour ago
+
+In the index.html.
+Avidor said an hour ago
+
+It just yields it.
+Adam said an hour ago
+
+Ok
+Adam said an hour ago
+
+Makes sense
+Avidor said an hour ago
+
+If it's not selected, than this line: '<div ng-transclude></div>' doesnt run and no transclusion happens.
+Adam said 60 mins ago
+
+In my html, am I supposed to have something like this:
+
+<div ng-app="app">
+    <div ng-controller="Tab">
+    <tab label="1">
+        Tab 1
+      </tab>
+      <tab label="2">
+      tab 2
+      </tab>
+      etc.
+      
+      </div>
+      </div>
+
+Adam said 60 mins ago
+
+er sorry indentation
+Adam said 59 mins ago
+
+do I do ng-controller="Tab"
+Adam said 59 mins ago
+
+or tabs?
+Adam said 59 mins ago
+
+probably tabs, as I have controllerAs: 'tabs', right?
+Avidor said 57 mins ago
+
+So i don't think we need to set a controller here. That's included in the Tab directive.
+Adam said 56 mins ago
+
+Oh, of course, we don't have an external controller
+Adam said 56 mins ago
+
+so how come we don't have to indicate where the directive is attached to the html?
+Adam said 55 mins ago
+
+    <div ng-app="app" class="app">
+      <tab label='Tab 1'>
+        Tab 1 contents!
+      </tab>
+      <tab label='Tab 2'>
+        Tab 2 contents!
+      </tab>
+      <tab label='Tab 3'>
+        Tab 3 contents!
+      </tab>
+    </div>
+
+Adam said 55 mins ago
+
+Is that all?
+Avidor said 53 mins ago
+
+Almost
+Avidor said 53 mins ago
+
+You need to wrap it all in <tabs></tabs> though
+Adam said 52 mins ago
+
+oh, that makes sense
+Adam said 52 mins ago
+
+OK
+Adam said 51 mins ago
+
+So I need to attach a click event to the tab
+Adam said 51 mins ago
+
+to set the value of .selected
+Adam said 50 mins ago
+
+just something like
+
+$element.on("click", function() {
+  $scope.selected = true;
+  };
+        
+
+Adam said 49 mins ago
+
+why do you sometimes see the use of $, in the link function for example, sometimes you see scope, element, attrs, ctrl and other times $scope, $element, $attrs, $ctrl
+Avidor said 48 mins ago
+
+I'm not %100 sure on that one, i'd have to google it to be honest.
+Adam said 48 mins ago
+
+ok no worries
+Adam said 48 mins ago
+
+ok so should my link look like this?
+Adam said 47 mins ago
+
+    link: function ($scope, $element, $attrs, $ctrl) {
+      element.on('click', function () {
+        this.selected = true;
+      });
+
+      scope.$on('$destroy', function () {
+        element.off();
+      });
+    }
+
+  
+
+Adam said 47 mins ago
+
+er, add dollar signs in there
+Avidor said 45 mins ago
+
+So which link funtcion are you doing this in?
+Adam said 45 mins ago
+
+In the tab directive
+Avidor said 44 mins ago
+
+So that might kind of work but you're then just one by one selecting tabs and never unselecting them.
+Avidor said 43 mins ago
+
+I think it might be worth while to review the previous lab that is similar to this one.
+Adam said 43 mins ago
+
+OK so I need to unselect all of the other tabs, then select this
+Adam said 43 mins ago
+
+hmm
+Avidor said 42 mins ago
+
+I mean, as we're talking, I have that open and that's what I'm looking at to help me.
+Adam said 42 mins ago
+
+I am looking at the notes as well, which I basically just condensed from the readme
+Adam said 42 mins ago
+
+but I don't see any code in the github
+Adam said 42 mins ago
+
+I think I am having a difficult time because all the code is in little fragments
+Adam said 41 mins ago
+
+and I don't see the entirety of it
+Adam said 41 mins ago
+
+This is the one you're talking about, right?: https://learn.co/tracks/full-stack-web-development/angularjs/custom-directives-components/angular-sharing-directive-controllers
+Adam said 41 mins ago
+
+Ah!
+Adam said 40 mins ago
+
+This is the lab which I bailed out on and skipped because I couldn't figure out how to do it
+Adam said 40 mins ago
+
+(I just clicked the 'next' button)
+Adam said 40 mins ago
+
+Someone (maybe you?) told me you were planning on moving this lab around
+Avidor said 40 mins ago
+
+But yeah, the readme you sent was the one I was refering to.
+Adam said 40 mins ago
+
+Ok
+Avidor said 39 mins ago
+
+Right, we wanted to move it farther down because as I'm sure you noticed a lot of things realted to this showed up later on.
+Adam said 39 mins ago
+
+Maybe I am at a point where I can solve this lab and then come back to the one I am on now
+Avidor said 39 mins ago
+
+Those two are very similar actually.
+Adam said 39 mins ago
+
+Haha probably not much help then
+Adam said 38 mins ago
+
+Yeah they seem nearly identical actually
+Avidor said 37 mins ago
+
+Yeah 😕
+Avidor said 37 mins ago
+
+The best thing to look at is that code along though.
+Adam said 37 mins ago
+
+Ok yeah I am looking at it
+Avidor said 37 mins ago
+
+Well, read me, it's not exactly a code along
+Avidor said 37 mins ago
+
+Hopefully that makes more sense now that you've gone through a lot of the sections.
+Adam said 36 mins ago
+
+Hm I mean it is starting to make sense
+Adam said 36 mins ago
+
+Like I said, I dont' feel like I have a good "big picture" idea of what's going on. It's like each lab is a tiny piece - "restrict" is a good example. set this directive so it's restricted to 'A'. Ok done. Next lab
+Adam said 35 mins ago
+
+When I go to try and put it all together, I am finding that I'm just having difficulty understanding how the whole thing works, or flows or something
+Adam said 34 mins ago
+
+I think my biggest issue is that I cannot come at it piecemeal
+Adam said 34 mins ago
+
+I have to almost have the entire solution coded correctly
+Adam said 34 mins ago
+
+That's the way it feels anyway
+Adam said 34 mins ago
+
+Because it's not really programming, is it? It's more like... configuring the output
+Adam said 33 mins ago
+
+Does that make sense? Am I thinking about it in the wrong way?
+Avidor said 31 mins ago
+
+Well I still think it's programing, but I know what you mean about coming at it piecemeal. Right now the labs are all these little pieces and don't always feel like they fit together and one piece doesn't necessarily lead to the next.
+Adam said 31 mins ago
+
+Yeah of course it's still programming, it's just that there doesn't seem to be a logic flow to it
+Adam said 31 mins ago
+
+Like, you are just configuring all the little settings for how it'll behave
+Avidor said 30 mins ago
+
+The Angular part doesn't have as much logic I think because we've done so much logic throughout the course so far and the hardest part of angular is understanding the framework to start and where to put all the piecees.
+Adam said 30 mins ago
+
+yeah exactly
+Adam said 30 mins ago
+
+if I put the pieces in the wrong way, or the wrong place, it just doesn't work. You just have to know how to do it.
+Adam said 30 mins ago
+
+Maybe it's just a thing which comes with time
+Adam said 29 mins ago
+
+OK I am getting the feeling that the link function is where the action happens
+Adam said 29 mins ago
+
+so I need to set up an .on('click' event
+Adam said 28 mins ago
+
+probably $element.on('click' function() { ....
+Adam said 28 mins ago
+
+right?
+Adam said 28 mins ago
+
+When that element is clicked, I want to render the template
+Avidor said 26 mins ago
+
+We really want all templates rendered at all times. But when you click on something change that tabs .selected property to true and all others to false so the transclude comes throug
+Adam said 25 mins ago
+
+Ok so $element.on('click', function () { this.selected = true} ?
+Adam said 25 mins ago
+
+or $scope.selected ?
+Adam said 25 mins ago
+
+and then $scope.$apply();
+Adam said 24 mins ago
+
+maybe before $scope.selected = true, iterate through each of tabs.tabs and set each one to .selected = false
+Adam said 23 mins ago
+
+for (var i = 0; i < tabs.tabs.length(); i++){
+    tabs.tabs[i].selected = false;
+    }
+
+Adam said 21 mins ago
+
+maybe
+
+tabs.tabs.forEach(function(tab)){
+  tab.selected = false;
+  }
+
+Avidor said 20 mins ago
+
+Yeah, play around with a method for iterating through and setting everything's selected property equal to false and if this is happening in your Tabs directive, I'm not sure if you need apply, but keep that in mind just in case.
+Adam said 18 mins ago
+
+ah this is hard to explain
+Adam said 18 mins ago
+
+I guess all I can say is that I do not know what to do
+Adam said 17 mins ago
+
+I play around, but it fails all the time, it's like, I don't get enough feedback to point me in the right direction
+Adam said 17 mins ago
+
+I mean, I could almost be just mashing the keyboard and I would get the same result
+Adam said 16 mins ago
+
+I don't know, maybe I need a break
+Avidor said 16 mins ago
+
+This is a really tough on Adam and I totally agree that it's hard to tell what's going on with Angular sometimes.
+Avidor said 15 mins ago
+
+If you've been banging your head against a wall for a while, I'd suggest taking a peak at the solution branch to help you along and to help understand how all of the pieces fit together.
+Adam said 15 mins ago
+
+yeah I actually just did that
+Avidor said 15 mins ago
+
+But take a break first perhaps and be able to come back with a fresh mind if you think that'll help.
+Adam said 14 mins ago
+
+maybe i looked at the wrong one
+Adam said 14 mins ago
+
+I didn't see any event listeners
+Adam said 14 mins ago
+
+ah stupid browser one sec
+Avidor said 13 mins ago
+
+The solution did it a more Angular way without event listeners
+Adam said 13 mins ago
+
+ah, wonderful!
+Adam said 13 mins ago
+
+😃
+Avidor said 10 mins ago
+
+ng-click 😉
+Adam said 10 mins ago
+
+oh in the html?
+Avidor said 10 mins ago
+
+In the Tabs template
+Adam said 9 mins ago
+
+Ok, I see it in there
+Adam said 8 mins ago
+
+OK I am going to take a break for a while, honestly I'm thinking that this lab is going to be one of those "I am pretty sure I understand it, pretty sure I also couldn't write it without looking at the solution."
+Adam said 8 mins ago
+
+I don't feel very comfortable leaving it like that, though
+Avidor said 8 mins ago
+
+Yeah 😕
+Adam said 7 mins ago
+
+I really appreciate you taking the time.
+Avidor said 7 mins ago
+
+Well this lab brings a lot together and I think I'd like to see more in this section for that. But I think you can use this lab as a template to help build your own things and solidy the understanding.
+Adam said 7 mins ago
+
+I do feel like I've got a better grasp on the whole thing, maybe more my philosophy of viewing it
+Avidor said 7 mins ago
+
+No problem Adam. Talking through it helps me understand it better as well 😃
+Adam said 7 mins ago
+
+Excellent. Ok. Have a great afternoon, Avidor.
+Avidor said 7 mins ago
+
+You too!
+
