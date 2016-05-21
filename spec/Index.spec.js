@@ -5,7 +5,7 @@ describe('Directive Test', function() {
 
 	it('should display the tabs correctly', function() {
 		var content = element(by.css('tab[label="Tab 1"]'));
-		expect(content.getText()).toEqual('Tab 1 contents!');
+		expect(content.getText()).toEqual('There are some things here in Tab #1!');
 
 		var content = element(by.css('tab[label="Tab 2"]'));
 		expect(content.getText()).toEqual('');
@@ -17,6 +17,6 @@ describe('Directive Test', function() {
 		button.click();
 		
 		var content = element(by.css('tab[label="Tab 2"]'));
-		expect(content.getText()).toEqual('Tab 2 contents!');
+		expect(content.getText()).toEqual('Tab #2 is number one!!!!! WOOO!!!!');
 	});
 });
