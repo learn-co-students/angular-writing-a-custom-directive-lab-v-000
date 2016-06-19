@@ -10,7 +10,7 @@ describe('Directive Test', function() {
 		var content = element(by.css('tab[label="Tab 2"]'));
 		expect(content.getText()).toEqual('');
 	});
-
+	
 	it('should change the tab on click', function() {
 		var button = element(by.css('.tabs__list li:nth-child(2)'));
 
