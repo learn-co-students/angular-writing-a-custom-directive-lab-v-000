@@ -7,7 +7,7 @@ angular
     },
     transclude: true,
     bindings: {
-      title: '@'
+      label: '@'
     },
     controller: function(){
       this.$onInit = function() {
