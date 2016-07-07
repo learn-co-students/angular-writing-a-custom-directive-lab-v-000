@@ -11,7 +11,6 @@ angular
     },
     controller: function(){
       this.$onInit = function() {
-        console.log('hello');
         this.tabsCtrl.addTab(this);
         console.log(this);   
       };

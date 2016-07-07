@@ -25,7 +25,7 @@ angular
             '<a href="#" ng-click="$ctrl.select(tab)">{{tab.title}}</a>',
           '</li>',
         '</ul>',
-        '<div class="tabs__content"></div>',
+        '<div class="tabs__content" ng-transclude></div>',
       '</div>'
     ].join('')
   });
