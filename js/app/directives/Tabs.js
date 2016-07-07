@@ -1,4 +1,3 @@
-'use strict';
 angular
   .module('app')
   .component('tabs', {
@@ -30,6 +29,3 @@ angular
     ].join('')
   });
   
-document.addEventListener('DOMContentLoaded', function () {
-  angular.bootstrap(document, ['app']);
-});
