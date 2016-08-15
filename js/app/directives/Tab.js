@@ -1,25 +1,26 @@
-var Tab = {
-	bindings: {
-		label: '@'
-	},
-	require: {parent: '^tabs'},
-	template: [
-		'<div class="tabs__content" >',
-			'<div ng-transclude ng-show="tab.selected"></div>',
-		'</div>'
-	].join(''),
-	transclude: true,
-	controller: function(){
-		var vm = this;
+function Tab(){
+	return {
+		restrict: 'E',
+		transclude: true,
+		require: '^tabs',
+		scope: {label: '@'},
+		template: [
+			'<div class="tabs__content" ng-show="tab.selected">',
+				'<div ng-transclude></div>',
+			'</div>'
+		].join(''),
+		link: function(scope, elem, attrs, ctrl){
 
-		this.$onInit = function(){
-			console.log(this);
-			this.parent.addTab(this);
-		};
-		
-	}
-};
+			scope.tab = {
+				label: scope.label,
+				selected: false
+			};
+
+			ctrl.addTab(scope.tab);
+		}
+	};
+}
 
 angular
 			.module('app')
-			.component('tab', Tab);
+			.directive('tab', Tab);
