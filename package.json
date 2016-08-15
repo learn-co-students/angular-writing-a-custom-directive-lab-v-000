@@ -1,6 +1,6 @@
 {
    "name": "angular",
-   "version": "1.0.0",
+   "version": "1.5.9",
    "devDependencies": {
      "express": "^4.13.4"
    }
