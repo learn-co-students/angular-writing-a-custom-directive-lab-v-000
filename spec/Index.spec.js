@@ -12,10 +12,10 @@ describe('Directive Test', function() {
 	});
 
 	it('should change the tab on click', function() {
-		var button = element(by.css('.tabs__list li:nth-child(2)'));
+		var button = element(by.css('.tabs_list li:nth-child(2)'));
 
 		button.click();
-		
+
 		var content = element(by.css('tab[label="Tab 2"]'));
 		expect(content.getText()).toEqual('Tab 2 contents!');
 	});
