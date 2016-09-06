@@ -1,6 +1,5 @@
 function Tab(){
   return {
-    // restrict: 'E',
     scope: {
       label: '@'
     },
