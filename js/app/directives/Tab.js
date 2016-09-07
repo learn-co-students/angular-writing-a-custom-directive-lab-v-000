@@ -4,13 +4,15 @@ function Tab() {
     scope: {
       label: '@'
     },
-    require: '^tabs',
     transclude: true,
-    template: [
-           '<div class="tabs__content" ng-if="tab.selected">',
-                 '<div ng-transclude></div>',
-             '</div>'
-     ].join(''),
+    require: '^tabs',
+    template:
+    `
+      <div>
+        <div class="tabs__content" ng-transclude ng-if="tab.selected">
+        </div>
+      </div>
+    `,
     link: function($scope, $element, $attrs, $ctrl) {
       $scope.tab = {
         label: $scope.label,
@@ -18,7 +20,7 @@ function Tab() {
       };
       $ctrl.addTab($scope.tab)
     }
-  }
+  };
 }
 
 angular
