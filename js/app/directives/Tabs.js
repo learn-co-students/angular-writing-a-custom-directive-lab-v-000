@@ -1,10 +1,9 @@
-function Tabs() {
-  return {
-    restrict: 'E',
-    scope: {},
+var tabs = {
     transclude: true,
     controller: function() {
-      this.tabs= [];
+      this.$onInit = function() {
+        this.tabs = [];
+      };
       this.addTab = function(tab) {
         this.tabs.push(tab);
       };
@@ -13,6 +12,9 @@ function Tabs() {
            this.tabs[i].selected = false; 
         }
         this.tabs[index].selected = true;
+      };
+      this.$postLink = function() {
+        this.selectTab(this.selected || 0)
       }
     },
     controllerAs: 'tabs',
@@ -27,13 +29,8 @@ function Tabs() {
         <div class="tabs__content" ng-transclude></div>
       </div>
       ` 
-    ,
-    link: function($scope, $element, $attrs, $ctrl) {
-      $ctrl.selectTab($attrs.active || 0);
-    }
-  };
 }
-
+ 
 angular
   .module('app')
-  .directive('tabs', Tabs);
+  .component('tabs', tabs);

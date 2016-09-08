@@ -1,28 +1,36 @@
-function Tab() {
-  return {
-    restrict: 'E',
-    scope: {
+var tab = {
+    bindings: {
       label: '@'
     },
     transclude: true,
-    require: '^tabs',
+    require: {
+      tabs: '^^'
+    },
     template:
     `
       <div>
-        <div class="tabs__content" ng-transclude ng-if="tab.selected">
+        <div class="tabs__content" ng-transclude ng-if="$ctrl.tab.selected">
         </div>
       </div>
     `,
-    link: function($scope, $element, $attrs, $ctrl) {
-      $scope.tab = {
-        label: $scope.label,
-        selected: false
+    controller: function() {
+      this.$onInit = function() {
+        this.tab = {
+          label: this.label,
+          selected: false
+        };
+        this.tabs.addTab(this.tab)
       };
-      $ctrl.addTab($scope.tab)
     }
-  };
+    // link: function($scope, $element, $attrs, $ctrl) {
+    //   $scope.tab = {
+    //     label: $scope.label,
+    //     selected: false
+    //   };
+    //   $ctrl.addTab($scope.tab)
+    // }
 }
 
 angular
   .module('app')
-  .directive('tab', Tab);
+  .component('tab', tab);
