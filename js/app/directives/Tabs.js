@@ -1,18 +1,20 @@
 var Tabs = {
-  transclusion: true,
+  transclude: true,
   controller: function(){
     this.tabs = [];
 
-    this.addTab = function(){
+    this.addTab = function(tab){
       this.tabs.push(tab);
-      debugger;
     }
-
   },
   controllerAs: 'tabs',
   template:
-    '<div class="tabs">I am Here</div>' +
-    '<div class="tabs__content">I am also here.</div>'
+    '<div class="tabs" >' +
+      '<div class="tabs__list">'   +
+        '<ul ng-transclude>'       +
+        '</ul>' +
+      '</div>' +
+    '<div class="tabs__content"></div>'
 }
 
 angular

@@ -1,19 +1,27 @@
 var Tab = {
-  require: {parent: '^tabs'},
+  require: {tabsCtrl: '^tabs'},
+  transclude: true,
   controller: function(){
+    // this.$onInit = function () {
+        // this.tabsCtrl.addTab(this);
+      // };
+    console.log(this);
+
+    this.parent = function() {
+      console.log(this.tabsCtrl);
+    }
+
   },
   controllerAs: 'tab',
   bindings: {
-    label: '='
+    label: '@'
   },
   template:
-    '<div class="tabs__list">'   +
-      '<ul>'                     +
         '<li class="tabs__list">'+
-        '<a>{{ tab.label }}</a>' +
-        '</li>'                  +
-      '</ul>'                    +
-    '</div>'
+        '<a href="#">'           +
+          '{{ tab.label }}'      +
+        '</a>'                   +
+        '</li>'
 }
 
 angular
