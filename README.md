@@ -22,3 +22,6 @@ Let's now make a `tab` component, with a `label` property. In this component, we
 Back in our `tabs` component, loop through the list of tabs and show the labels at the top, so we can click on them. When clicking on them, we should change the active tab that displays on the page.
 
 Make sure to call the tabs component in `index.html`!
+
+## Tip:
+For background on custom directives and this lab check <a href="https://toddmotto.com/directive-to-directive-communication-with-require/" target="_blank">this</a> out
