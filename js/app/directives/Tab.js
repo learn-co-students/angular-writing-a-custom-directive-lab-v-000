@@ -9,12 +9,12 @@ var Tab = {
   ].join(''),
   controller: function($scope){
     debugger;
+    // this debugger is not getting caught
     $scope.tab = {
       label: $scope.label,
       selected: false
     }
     this.addTab($scope.tab)
-    // this.label = label
   },
   controllerAs: 'tab'
 }
