@@ -3,7 +3,7 @@ var tab = {
     label: '@'
   },
   require: {
-  	parent: '^^tabs'
+  	parent: '^tabs'
   },
   transclude: true,
   template: `
