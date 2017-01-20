@@ -28,10 +28,7 @@ var Tabs = {
       '</ul>',
       '<div class="tabs__content" ng-transclude></div>',
     '</div>'
-  ].join('')//,
-  // link: function ($scope, $element, $attrs, $ctrl) {
-  //   $ctrl.selectTab(0) // select a tab when loading the page
-  // }
+  ].join('')
 }
 
 angular
