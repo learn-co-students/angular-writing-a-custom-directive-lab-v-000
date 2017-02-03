@@ -4,14 +4,12 @@ function Tabs() {
     transclude: true,
     scope: {},
     template: [
-      '<div class="tabs">',
-        '<ul class="tabs__list">',
-              '<li ng-repeat="tab in tabs.tabs">',
-                '<a href="" ng-bind="tab.label" ng-click="tabs.selectTab($index);"></a>',
-              '</li>',
-          '</ul>',
-        '<div class="tabs__content" ng-transclude></div>',
-      '</div>'
+      '<ul class="tabs__list">',
+            '<li ng-repeat="tab in tabs.tabs">',
+              '<a href="" ng-bind="tab.label" ng-click="tabs.selectTab($index);"></a>',
+            '</li>',
+        '</ul>',
+      '<div class="tabs__content" ng-transclude></div>',
     ].join(''),
     controller: function(){
       this.tabs = [];
