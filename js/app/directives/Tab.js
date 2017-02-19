@@ -1,21 +1,29 @@
 var Tab = {
-    bindings: {
-        label: '='
-    },
-    //controller: 'tabs',
     transclude: true,
     require: {
         parent: '^tabs'
     },
-    template: [`
-    <div class="tabs__content" ng-if="tab.selected">
-        <div ng-transclude></div>
+    bindings: {
+        label: '@'
+    },
+    controller: function($scope) {
+        this.tabsCtrl = $scope.$parent.$parent.tabs;
 
-      </div>
-    `].join(''),
+        $scope.tab = {
+            label: $scope.tab.label,
+            selected: false
+        };
+
+        this.tabsCtrl.addTab($scope.tab);
+        this.tabsCtrl.selectTab(0);
+    },
+    template: [
+        '<div class="tabs__content" ng-if="tab.selected">',
+        '<div ng-transclude></div>',
+        '</div>'
+    ].join('')
 };
 
 angular
     .module('app')
-    .component('tabs', Tabs)
     .component('tab', Tab);

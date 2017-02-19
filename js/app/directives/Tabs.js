@@ -1,30 +1,35 @@
 var Tabs = {
+    bindings: {},
     transclude: true,
-    template: [`
-      <div class="tabs">
-      <ul class="tabs_list">
-      <li ng-repeat="tab in ctrl.tabs">{{ ctrl.label }}</li>
-      </ul>
-      <div ng-transclude></div>
-      </div>
-      `].join(''),
     controller: function() {
-        this.tabs = [];
+        this.tabs = [] ;
 
-        this.addTab = function(tab) {
+        this.addTab = function addTab(tab) {
             this.tabs.push(tab);
         };
 
-        this.select = function(tab) {
-          angular.forEach(this.tabs, function(tab){
-            tab.selected = false;
-          });
-          tab.selected = true;
-        };
+        this.selectTab = function selectTab(index) {
+            var l = this.tabs.length;
 
-    },controllerAs: 'ctrl'
-};
+            for (var i = 0; i < l; i++) {
+                this.tabs[i].selected = false;
+            }
+            this.tabs[index].selected = true;
+        };
+    },
+    controllerAs: 'tabs',
+    template: [
+        '<div class="tabs">',
+        '<ul class="tabs__list">',
+        '<li ng-repeat="tab in tabs.tabs">',
+        '<a href="" ng-bind="tab.label" ng-click="tabs.selectTab($index);"></a>',
+        '</li>',
+        '</ul>',
+        '<div class="tabs__content" ng-transclude></div>',
+        '</div>'
+    ].join('')
+}
 
 angular
     .module('app')
-    .component('tabs', Tabs);
+    .component('tabs', Tabs)
