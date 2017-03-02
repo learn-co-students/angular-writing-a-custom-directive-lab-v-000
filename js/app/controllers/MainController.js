@@ -1,6 +1,6 @@
 function MainController() {
-	this.info1 = "Content 1";
-	this.info2 = "Content 2";
+	this.info1 = "Tab 1 contents!";
+	this.info2 = "Tab 2 contents!";
 }
 
 angular
